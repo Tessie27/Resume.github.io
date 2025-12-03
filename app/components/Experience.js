@@ -1,5 +1,11 @@
 // app/components/Experience.js
+'use client';
+import { useEffect, useRef } from 'react';
+
 export default function Experience() {
+  const sectionRef = useRef(null);
+  const itemsRef = useRef([]);
+  
   const experienceData = [
     {
       title: "Junior Automation Engineer - Internship",
@@ -51,15 +57,43 @@ export default function Experience() {
     }
   ];
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    itemsRef.current.forEach(item => {
+      if (item) observer.observe(item);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="experience" className="section fade-in">
+    <section id="experience" className="section" ref={sectionRef}>
       <h2>Work Experience</h2>
-      <div className="experience-list">
+      <div className="timeline">
         {experienceData.map((exp, index) => (
-          <div key={index} className="experience-item">
+          <div 
+            key={index} 
+            className="timeline-item"
+            ref={el => itemsRef.current[index] = el}
+            style={{ animationDelay: `${index * 0.2}s` }}
+          >
             <h3>{exp.title}</h3>
             <p className="company">{exp.company}</p>
-            <p className="duration">{exp.duration}</p>
+            <span className="duration">{exp.duration}</span>
             <ul className="responsibilities">
               {exp.responsibilities.map((resp, idx) => (
                 <li key={idx}>{resp}</li>

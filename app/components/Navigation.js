@@ -1,76 +1,97 @@
 // app/components/Navigation.js
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+
+const sections = [
+  { id: 'skills', label: 'Skills' },
+  { id: 'education', label: 'Education' },
+  { id: 'experience', label: 'Experience' },
+];
 
 export default function Navigation() {
   const [activeSection, setActiveSection] = useState('skills');
-  const [isClient, setIsClient] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const observerRef = useRef(null);
 
   useEffect(() => {
-    setIsClient(true);
-    
+    // Handle scroll effect
     const handleScroll = () => {
-      const sections = ['skills', 'education', 'experience'];
+      setIsScrolled(window.scrollY > 50);
+      
       const scrollPosition = window.scrollY + 100;
-
-      for (const section of sections) {
-        const element = document.getElementById(section);
+      
+      for (const { id } of sections) {
+        const element = document.getElementById(id);
         if (element) {
-          const offsetTop = element.offsetTop;
-          const height = element.offsetHeight;
-
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + height) {
-            setActiveSection(section);
+          const { offsetTop, offsetHeight } = element;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(id);
             break;
           }
         }
       }
     };
 
+    // Intersection Observer for more precise detection
+    const observerOptions = {
+      root: null,
+      rootMargin: '-50% 0px -50% 0px',
+      threshold: 0,
+    };
+
+    const observerCallback = (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    observerRef.current = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Observe all sections
+    sections.forEach(({ id }) => {
+      const element = document.getElementById(id);
+      if (element) observerRef.current.observe(element);
+    });
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    handleScroll(); // Initial check
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
   }, []);
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
+      const offset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
       window.scrollTo({
-        top: element.offsetTop - 80,
+        top: offsetPosition,
         behavior: 'smooth'
       });
     }
   };
 
-  if (!isClient) {
-    return (
-      <nav className="navbar">
-        <div className="nav-container">
-          <div className="nav-links">
-            {['skills', 'education', 'experience'].map(section => (
-              <button
-                key={section}
-                className="nav-link"
-              >
-                {section.charAt(0).toUpperCase() + section.slice(1)}
-              </button>
-            ))}
-          </div>
-        </div>
-      </nav>
-    );
-  }
-
   return (
-    <nav className="navbar">
+    <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <div className="nav-container">
         <div className="nav-links">
-          {['skills', 'education', 'experience'].map(section => (
+          {sections.map(section => (
             <button
-              key={section}
-              className={`nav-link ${activeSection === section ? 'active' : ''}`}
-              onClick={() => scrollToSection(section)}
+              key={section.id}
+              className={`nav-link ${activeSection === section.id ? 'active' : ''}`}
+              onClick={() => scrollToSection(section.id)}
+              aria-label={`Scroll to ${section.label} section`}
             >
-              {section.charAt(0).toUpperCase() + section.slice(1)}
+              {section.label}
             </button>
           ))}
         </div>
