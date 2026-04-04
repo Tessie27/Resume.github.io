@@ -1,0 +1,76 @@
+---
+// src/components/Education.astro  (mirrors app/components/Education.js)
+const educationData = [
+  {
+    degree: 'ITIL 4 Foundation',
+    institution: 'Axelos (PeopleCert)',
+    duration: 'Certified',
+    description: 'IT service management framework covering end-to-end delivery of IT-enabled services.',
+  },
+  {
+    degree: 'HDI Support Centre Analyst',
+    institution: 'Asseco Academy',
+    duration: 'Certified',
+    description: 'Best practices certification for technical support and service desk excellence.',
+  },
+  {
+    degree: 'Microsoft Identity & Access Administrator SC-300',
+    institution: 'Microsoft',
+    duration: 'Currently Studying',
+    description: 'Designing, implementing, and managing identity and access within Microsoft Azure AD and M365.',
+  },
+  {
+    degree: 'Diploma in IT (NQF 6)',
+    institution: 'Richfield Graduate Institute of Technology',
+    duration: '2023',
+    description: 'Comprehensive IT education covering software development, networking, and systems analysis.',
+  },
+  {
+    degree: 'National Certificate: Business Analysis Support (NQF 5)',
+    institution: 'Impactful',
+    duration: '2023 - 2024',
+    description: 'Specialized in business process analysis and optimization techniques.',
+  },
+];
+---
+
+<section id="education" class="section">
+  <h2>Education</h2>
+  <div class="timeline">
+    {educationData.map((edu, i) => (
+      <div class="timeline-item" style={`animation-delay: ${i * 0.2}s`}>
+        <h3>{edu.degree}</h3>
+        <p class="institution">{edu.institution}</p>
+        <span class="duration">{edu.duration}</span>
+        <p class="description">{edu.description}</p>
+      </div>
+    ))}
+  </div>
+
+  <h2 style="margin-top: 3rem;">Additional Training</h2>
+  <div class="timeline">
+    {[
+      'Cybersecurity Fundamentals – IBM SkillsBuild',
+      'ServiceNow IT Leadership Professional Certificate – LinkedIn Learning',
+      'Now Assist & Agentic Workflow for ITOM Delivery Accreditation – ServiceNow University',
+      'AWS Educate: Cloud 101 & Intro to Generative AI – AWS',
+      'Introduction to Data Science – Cisco',
+      'Google IT Support Specialization – Coursera',
+    ].map((item, i) => (
+      <div class="timeline-item" style={`animation-delay: ${i * 0.1}s`}>
+        <p style="color: var(--text-secondary); margin: 0;">{item}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  const section = document.getElementById('education')!;
+  const items = section.querySelectorAll('.timeline-item');
+  const observer = new IntersectionObserver(
+    (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.1 }
+  );
+  observer.observe(section);
+  items.forEach((item) => observer.observe(item));
+</script>

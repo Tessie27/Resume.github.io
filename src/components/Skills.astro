@@ -1,0 +1,55 @@
+---
+// src/components/Skills.astro  (mirrors app/components/Skills.js)
+const skillCategories = [
+  {
+    title: 'Automation & Scripting',
+    skills: ['PowerShell', 'Python', 'JavaScript', 'Bash', 'VBA', 'SQL', 'REST APIs', 'Git', 'CI/CD'],
+  },
+  {
+    title: 'Cloud & System Support',
+    skills: ['Microsoft Azure', 'Microsoft 365', 'Exchange Online', 'SharePoint', 'AWS', 'GCP', 'Intune', 'Okta', 'Linux'],
+  },
+  {
+    title: 'IT Service Management',
+    skills: ['ServiceNow', 'ITSM', 'ITOM', 'Workflow Automation', 'Confluence'],
+  },
+  {
+    title: 'Infrastructure & Networking',
+    skills: ['VPN', 'Firewall (SonicWall)', 'VMware', 'Citrix', 'Meraki', 'Kaseya', 'LogicMonitor', 'ManageEngine'],
+  },
+  {
+    title: 'Security & Compliance',
+    skills: ['IAM', 'RBAC', 'Microsoft Defender', 'Microsoft Purview', 'SentinelOne', 'Security Automation'],
+  },
+  {
+    title: 'Emerging Technologies',
+    skills: ['ServiceNow Now Assist', 'Agentic Workflows', 'Generative AI', 'AI-Driven Automation', 'Machine Learning'],
+  },
+];
+---
+
+<section id="skills" class="section">
+  <h2>Technical Skills</h2>
+  <div class="skills-container">
+    {skillCategories.map((category, i) => (
+      <div class="skills-category" style={`animation-delay: ${i * 0.1}s`}>
+        <h3>{category.title}</h3>
+        <div class="skills-grid">
+          {category.skills.map((skill) => (
+            <div class="skill-item">
+              <span>{skill}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  const section = document.getElementById('skills')!;
+  new IntersectionObserver(
+    (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.1 }
+  ).observe(section);
+</script>
