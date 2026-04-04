@@ -1,0 +1,62 @@
+---
+// src/components/Header.astro  (mirrors app/components/Header.js)
+const nameChars = 'Le Tezz Khan'.split('');
+---
+
+<header class="header" id="site-header">
+  <div class="container">
+    <div class="header-content">
+      <h1 class="name">
+        {nameChars.map((char, i) => (
+          <span style={`--i:${i}`}>{char === ' ' ? '\u00A0' : char}</span>
+        ))}
+      </h1>
+      <p class="bio">
+        <strong>Senior Service Desk Analyst</strong> with 4+ years of experience in the Microsoft
+        Azure and M365 ecosystem. Skilled in designing, implementing, and managing cloud-based
+        solutions including Exchange Online, SharePoint, and Active Directory. Actively applying
+        automation to improve security, scalability, and reliability in cloud environments.
+      </p>
+    </div>
+  </div>
+</header>
+
+<script>
+  const codeSnippets = [
+    { text: 'def automate():', lang: 'python' },
+    { text: 'const optimize = () => {', lang: 'javascript' },
+    { text: 'public void innovate() {', lang: 'java' },
+    { text: 'std::future<ai> create();', lang: 'cpp' },
+    { text: 'def deploy():', lang: 'ruby' },
+    { text: 'func innovate() {', lang: 'go' },
+    { text: 'async fn transform()', lang: 'rust' },
+    { text: 'function evolve() {', lang: 'typescript' },
+    { text: 'interface Future {', lang: 'csharp' },
+    { text: 'let create = () => {', lang: 'swift' },
+  ];
+
+  const header = document.getElementById('site-header')!;
+
+  function spawnParticle(randomTop = false) {
+    const snippet = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+    const el = document.createElement('div');
+    el.className = 'code-particle';
+    el.textContent = snippet.text;
+    el.dataset.lang = snippet.lang;
+    el.style.left = `${Math.random() * 100}%`;
+    el.style.top = randomTop ? `${Math.random() * 100}%` : '100%';
+    el.style.animationDelay = randomTop ? `${Math.random() * 20}s` : '0s';
+    el.style.animationDuration = `${15 + Math.random() * 15}s`;
+    el.style.animationName = 'floatParticle';
+    el.style.animationTimingFunction = 'linear';
+    el.style.animationIterationCount = 'infinite';
+    header.appendChild(el);
+    setTimeout(() => el.remove(), 30000);
+  }
+
+  // Initial burst
+  for (let i = 0; i < 15; i++) spawnParticle(true);
+
+  // Ongoing
+  setInterval(() => spawnParticle(false), 3000);
+</script>

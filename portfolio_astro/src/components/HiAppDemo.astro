@@ -1,0 +1,234 @@
+---
+// src/components/HiAppDemo.astro
+---
+<section id="hiappdemo" class="section">
+  <div style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+    <h2>Hi... App</h2>
+    <p class="hi-desc" style="max-width: 600px;">
+      A communication aid app for noisy environments. Tap a button, hand your phone to someone, let them read.
+    </p>
+  </div>
+
+  <div class="hi-wrapper">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen" id="app" style="background:#666666;color:#fff;">
+        <div class="theme-wrap">
+          <button class="theme-icon-btn" id="themeIconBtn" onclick="window.toggleThemeMenu()">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="13.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/>
+              <circle cx="17.5" cy="10.5" r="1.1" fill="currentColor" stroke="none"/>
+              <circle cx="8.5" cy="7.5" r="1.1" fill="currentColor" stroke="none"/>
+              <circle cx="6.5" cy="12.5" r="1.1" fill="currentColor" stroke="none"/>
+              <path stroke="currentColor" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 011.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+            </svg>
+          </button>
+          <div class="theme-menu" id="themeMenu" style="display:none;">
+            <button class="t-opt" onclick="window.setTheme('main')">Main (grey)</button>
+            <button class="t-opt" onclick="window.setTheme('white')">White</button>
+            <button class="t-opt" onclick="window.setTheme('night')">Night</button>
+          </div>
+        </div>
+        <div id="sc"></div>
+      </div>
+    </div>
+
+    <a href="https://github.com/Tessie27/hi-app"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="hi-link" 
+      style="color: #fff"
+    >
+      View on GitHub
+    </a>
+  </div>
+</section>
+
+<style is:global>
+  #hiappdemo:hover {
+    box-shadow: none !important;
+    transform: none !important;
+  }
+  .hi-desc { margin-bottom: 32px; opacity: 0.7; }
+  .hi-wrapper { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+  .phone-frame {
+    width: 300px; height: 560px; border: 2px solid rgba(128,128,128,0.35);
+    border-radius: 36px; padding: 12px; background: #111; box-shadow: 0 32px 80px rgba(0,0,0,0.35);
+  }
+  .phone-notch { width: 80px; height: 6px; background: rgba(255,255,255,0.12); border-radius: 3px; margin: 0 auto 10px; }
+  
+  #app {
+    width: 100%; height: calc(100% - 16px);
+    overflow: hidden; border-radius: 26px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-family: 'Courier New', Courier, monospace;
+    position: relative; padding: 20px 28px;
+    transition: background 0.25s;
+  }
+  #app .btn {
+    width: 100%; max-width: 300px; padding: 15px 18px;
+    background: transparent; border: 1px solid rgba(255,255,255,0.75);
+    color: #fff; font-family: 'Courier New', Courier, monospace;
+    font-size: 15px; cursor: pointer; letter-spacing: 0.04em; border-radius: 0;
+    transition: opacity 0.15s, border-color 0.25s, color 0.25s;
+  }
+  #app .btn:active { opacity: 0.55; }
+  #app .btn-stack { display: flex; flex-direction: column; gap: 14px; align-items: center; width: 100%; }
+  #app .big-text {
+    font-size: clamp(26px, 8vw, 54px); text-align: center;
+    line-height: 1.4; font-weight: 700; white-space: pre-wrap;
+    transition: color 0.25s; min-height: 1.5em;
+  }
+  #app .hint { font-size: 11px; opacity: 0.35; margin-top: 28px; letter-spacing: 0.12em; text-transform: uppercase; }
+  #app .qr-box {
+    width: 150px; height: 150px; border: 1.5px solid currentColor; border-radius: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; letter-spacing: 0.1em; opacity: 0.6; margin: 0 auto;
+  }
+  #app .back-btn {
+    position: absolute; top: 14px; left: 16px;
+    background: transparent; border: 1px solid currentColor; border-radius: 0;
+    padding: 6px 14px; font-family: 'Courier New', Courier, monospace;
+    font-size: 12px; cursor: pointer; letter-spacing: 0.05em; transition: color 0.25s;
+  }
+  #app .theme-wrap { position: absolute; top: 14px; right: 16px; }
+  #app .theme-icon-btn { background: transparent; border: none; cursor: pointer; padding: 4px; display: block; color: inherit; }
+  #app .theme-menu {
+    position: absolute; right: 0; top: 34px; min-width: 130px;
+    border: 1px solid; border-radius: 0; z-index: 20; overflow: hidden;
+  }
+  #app .t-opt {
+    display: block; width: 100%; padding: 10px 14px; background: transparent;
+    border: none; border-radius: 0; border-bottom: 1px solid rgba(128,128,128,0.3);
+    font-family: 'Courier New', Courier, monospace; font-size: 13px;
+    cursor: pointer; text-align: left; letter-spacing: 0.03em; color: inherit;
+  }
+  #app .t-opt:last-child { border-bottom: none; }
+  #app .t-opt:hover { opacity: 0.65; }
+  #app .cursor-blink {
+    display: inline-block; width: 3px; height: 0.85em;
+    background: currentColor; margin-left: 3px; vertical-align: middle;
+    border-radius: 0; animation: blink 0.75s step-end infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  #sc { text-align: center; width: 100%; }
+
+  .hi-link { font-family: 'Courier New', Courier, monospace; font-size: 13px; letter-spacing: 0.05em; opacity: 0.7; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px; transition: opacity 0.15s; }
+  .hi-link:hover { opacity: 1; }
+</style>
+
+<script>
+  window.setTheme = function(t){theme=t;applyTheme();closeMenu();}
+  window.toggleThemeMenu = function(){const m=document.getElementById('themeMenu');m.style.display=m.style.display==='none'?'block':'none';}
+  window.go = function(s){screen=s;render();}
+  
+  const T = {
+    main:  { bg:'#666666', text:'#fff', border:'rgba(255,255,255,0.7)', menuBg:'#555', menuBorder:'rgba(255,255,255,0.3)' },
+    white: { bg:'#ffffff', text:'#000', border:'rgba(0,0,0,0.45)',      menuBg:'#efefef', menuBorder:'rgba(0,0,0,0.25)' },
+    night: { bg:'#000000', text:'#fff', border:'rgba(255,255,255,0.55)',menuBg:'#111',   menuBorder:'rgba(255,255,255,0.2)' }
+  };
+  let theme='main', screen='home', twTimer=null;
+
+  function applyTheme() {
+    const t=T[theme], app=document.getElementById('app');
+    if(!app) return;
+    app.style.background=t.bg; app.style.color=t.text;
+    const menu=document.getElementById('themeMenu');
+    menu.style.background=t.menuBg; menu.style.borderColor=t.menuBorder;
+    document.getElementById('themeIconBtn').style.color=t.text;
+    document.querySelectorAll('.btn,.back-btn').forEach(b=>{b.style.color=t.text;b.style.borderColor=t.border;});
+    document.querySelectorAll('.t-opt').forEach(b=>{b.style.color=t.text;});
+  }
+
+  function closeMenu(){document.getElementById('themeMenu').style.display='none';}
+
+  function typewriter(id, text, speed) {
+    if(twTimer) clearTimeout(twTimer);
+    const el=document.getElementById(id), cur=document.getElementById('tw-cur');
+    if(!el) return;
+    el.textContent='';
+    if(cur) cur.style.display='inline-block';
+    let i=0;
+    function tick(){
+      if(i<text.length){el.textContent+=text[i++];twTimer=setTimeout(tick,speed);}
+      else{if(cur) setTimeout(()=>{if(cur)cur.style.display='none';},900);}
+    }
+    tick();
+  }
+
+  function render(){
+    const sc=document.getElementById('sc');
+    if(!sc) return;
+    const screens={
+      home:`<p class="big-text" style="margin-bottom:44px"><span id="tw-text"></span><span id="tw-cur" class="cursor-blink"></span></p>
+        <div class="btn-stack">
+          <button class="btn" onclick="window.go('name')">Name</button>
+          <button class="btn" onclick="window.go('surname')">Surname</button>
+          <button class="btn" onclick="window.go('himy')">Hi, my...</button>
+          <button class="btn" onclick="window.go('noisy')" style="font-size:13px">Hi, it's too noisy here...</button>
+        </div>`,
+      name:`<button class="back-btn" onclick="window.go('home')">back</button>
+        <p class="big-text"><span id="tw-text"></span><span id="tw-cur" class="cursor-blink"></span></p>
+        <p class="hint">rotate phone sideways</p>`,
+      surname:`<button class="back-btn" onclick="window.go('home')">back</button>
+        <p class="big-text"><span id="tw-text"></span><span id="tw-cur" class="cursor-blink"></span></p>
+        <p class="hint">rotate phone sideways</p>`,
+      himy:`<button class="back-btn" onclick="window.go('home')">back</button>
+        <p class="big-text" style="margin-bottom:30px"><span id="tw-text"></span><span id="tw-cur" class="cursor-blink"></span></p>
+        <div class="btn-stack">
+          <button class="btn" onclick="window.go('number')">number is...</button>
+          <button class="btn" onclick="window.go('whatsapp')">WhatsApp is...</button>
+          <button class="btn" onclick="window.go('ig')">IG is...</button>
+        </div>`,
+      number:`<button class="back-btn" onclick="window.go('himy')">back</button>
+        <p class="big-text"><span id="tw-text"></span><span id="tw-cur" class="cursor-blink"></span></p>
+        <p class="hint">rotate phone sideways</p>`,
+      whatsapp:`<button class="back-btn" onclick="window.go('himy')">back</button>
+        <p class="big-text" style="font-size:clamp(20px,5vw,32px);margin-bottom:20px"><span id="tw-text"></span><span id="tw-cur" class="cursor-blink"></span></p>
+        <div class="qr-box">QR code here</div>
+        <p class="hint">rotate phone sideways</p>`,
+      ig:`<button class="back-btn" onclick="window.go('himy')">back</button>
+        <p class="big-text" style="font-size:clamp(20px,5vw,32px);margin-bottom:20px"><span id="tw-text"></span><span id="tw-cur" class="cursor-blink"></span></p>
+        <div class="qr-box">QR code here</div>
+        <p class="hint">rotate phone sideways</p>`,
+      noisy:`<button class="back-btn" onclick="window.go('home')">back</button>
+        <p class="big-text"><span id="tw-text"></span><span id="tw-cur" class="cursor-blink"></span></p>
+        <p class="hint">rotate phone sideways</p>`
+    };
+    const texts={
+      home:    {text:'Hi...',speed:140},
+      name:    {text:'Hi, my name is\\nLe\\u00A0Tezz',speed:42},
+      surname: {text:'Hi, my surname is\\nKhan',speed:42},
+      himy:    {text:'Hi, my...',speed:90},
+      number:  {text:'Hi, my number is\\n0000000000',speed:42},
+      whatsapp:{text:'Hi, my WhatsApp is',speed:42},
+      ig:      {text:'Hi, my IG is',speed:42},
+      noisy:   {text:'Hi, it\\u2019s too noisy here,\\ncan we go somewhere quieter?',speed:32}
+    };
+    sc.innerHTML=screens[screen]||screens.home;
+    applyTheme();
+    const tw=texts[screen];
+    if(tw) typewriter('tw-text',tw.text,tw.speed);
+  }
+  
+  document.addEventListener('click',function(e){
+    const menu=document.getElementById('themeMenu'),btn=document.getElementById('themeIconBtn');
+    if(menu && btn && !menu.contains(e.target)&&!btn.contains(e.target)) closeMenu();
+  });
+  
+  const hiappdemoSection = document.getElementById('hiappdemo');
+  if (hiappdemoSection) {
+    new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.1 }
+    ).observe(hiappdemoSection);
+  }
+
+  // Use Astro run check
+  if (document.readyState !== 'loading') {
+    render();
+  } else {
+    document.addEventListener('DOMContentLoaded', render);
+  }
+</script>

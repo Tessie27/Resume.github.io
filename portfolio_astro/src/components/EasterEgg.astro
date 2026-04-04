@@ -1,0 +1,27 @@
+---
+// src/components/EasterEgg.astro  (mirrors app/components/EasterEgg.js)
+---
+
+<button class="easter-egg" id="easter-egg" aria-label="Accessibility Easter Egg">
+  <i class="fas fa-hearing-aid"></i>
+</button>
+
+<div class="easter-egg-message" id="easter-egg-message" style="display:none;">
+  My hearing aids stream calls and Spotify straight to my ears.
+  Accessibility has never sounded this good.
+</div>
+
+<script>
+  const btn = document.getElementById('easter-egg')!;
+  const msg = document.getElementById('easter-egg-message')!;
+  let timer: ReturnType<typeof setTimeout>;
+
+  btn.addEventListener('click', () => {
+    const isVisible = msg.style.display !== 'none';
+    msg.style.display = isVisible ? 'none' : 'block';
+    clearTimeout(timer);
+    if (!isVisible) {
+      timer = setTimeout(() => { msg.style.display = 'none'; }, 5000);
+    }
+  });
+</script>
