@@ -38,7 +38,7 @@ const educationData = [
   <h2>Education</h2>
   <div class="timeline">
     {educationData.map((edu, i) => (
-      <div class="timeline-item" style={`animation-delay: ${i * 0.2}s`}>
+      <div class="timeline-item" style={`animation-delay: ${(i * 0.2).toFixed(1)}s`}>
         <h3>{edu.degree}</h3>
         <p class="institution">{edu.institution}</p>
         <span class="duration">{edu.duration}</span>
@@ -57,7 +57,7 @@ const educationData = [
       'Introduction to Data Science – Cisco',
       'Google IT Support Specialization – Coursera',
     ].map((item, i) => (
-      <div class="timeline-item" style={`animation-delay: ${i * 0.1}s`}>
+      <div class="timeline-item" style={`animation-delay: ${(i * 0.1).toFixed(1)}s`}>
         <p style="color: var(--text-secondary); margin: 0;">{item}</p>
       </div>
     ))}

@@ -32,7 +32,7 @@ const skillCategories = [
   <h2>Technical Skills</h2>
   <div class="skills-container">
     {skillCategories.map((category, i) => (
-      <div class="skills-category" style={`animation-delay: ${i * 0.1}s`}>
+      <div class="skills-category" style={`animation-delay: ${(i * 0.1).toFixed(1)}s`}>
         <h3>{category.title}</h3>
         <div class="skills-grid">
           {category.skills.map((skill) => (

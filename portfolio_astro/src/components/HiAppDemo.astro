@@ -118,7 +118,7 @@
   .hi-link:hover { opacity: 1; }
 </style>
 
-<script>
+<script is:inline>
   window.setTheme = function(t){theme=t;applyTheme();closeMenu();}
   window.toggleThemeMenu = function(){const m=document.getElementById('themeMenu');m.style.display=m.style.display==='none'?'block':'none';}
   window.go = function(s){screen=s;render();}
@@ -147,11 +147,16 @@
     if(twTimer) clearTimeout(twTimer);
     const el=document.getElementById(id), cur=document.getElementById('tw-cur');
     if(!el) return;
-    el.textContent='';
+    el.innerHTML='';
     if(cur) cur.style.display='inline-block';
     let i=0;
     function tick(){
-      if(i<text.length){el.textContent+=text[i++];twTimer=setTimeout(tick,speed);}
+      if(i<text.length){
+        const char = text[i++];
+        if (char === '\n') el.innerHTML += '<br>';
+        else el.innerHTML += char;
+        twTimer=setTimeout(tick,speed);
+      }
       else{if(cur) setTimeout(()=>{if(cur)cur.style.display='none';},900);}
     }
     tick();
@@ -198,13 +203,13 @@
     };
     const texts={
       home:    {text:'Hi...',speed:140},
-      name:    {text:'Hi, my name is\\nLe\\u00A0Tezz',speed:42},
-      surname: {text:'Hi, my surname is\\nKhan',speed:42},
+      name:    {text:'Hi, my name is\nLe\u00A0Tezz',speed:42},
+      surname: {text:'Hi, my surname is\nKhan',speed:42},
       himy:    {text:'Hi, my...',speed:90},
-      number:  {text:'Hi, my number is\\n0000000000',speed:42},
+      number:  {text:'Hi, my number is\n0000000000',speed:42},
       whatsapp:{text:'Hi, my WhatsApp is',speed:42},
       ig:      {text:'Hi, my IG is',speed:42},
-      noisy:   {text:'Hi, it\\u2019s too noisy here,\\ncan we go somewhere quieter?',speed:32}
+      noisy:   {text:'Hi, it’s too noisy here,\ncan we go somewhere quieter?',speed:32}
     };
     sc.innerHTML=screens[screen]||screens.home;
     applyTheme();

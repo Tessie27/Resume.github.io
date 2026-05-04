@@ -65,7 +65,7 @@ const experienceData = [
   <h2>Work Experience</h2>
   <div class="timeline">
     {experienceData.map((exp, i) => (
-      <div class="timeline-item" style={`animation-delay: ${i * 0.2}s`}>
+      <div class="timeline-item" style={`animation-delay: ${(i * 0.2).toFixed(1)}s`}>
         <h3>{exp.title}</h3>
         <p class="company">{exp.company}</p>
         <span class="duration">{exp.duration}</span>
