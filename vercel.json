@@ -1,5 +1,4 @@
 {
-  "rootDirectory": "portfolio_astro",
   "framework": "astro",
   "buildCommand": "npm run build",
   "outputDirectory": "dist"
